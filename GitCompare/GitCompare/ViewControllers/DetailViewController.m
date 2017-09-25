@@ -43,6 +43,8 @@
         self.title = [NSString stringWithFormat:@"Pull Request #%ld", self.currentPullRequest.requestNumber];
     }
     
+    if(self.currentPullRequest.requestNumber > 0)
+    {
     NSString *urlString = [NSString stringWithFormat:@"https://github.com/magicalpanda/MagicalRecord/pull/%ld.diff", self.currentPullRequest.requestNumber];
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"GET"];
@@ -53,8 +55,22 @@
       {
           
           NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-          NSArray *fileArray = [requestReply componentsSeparatedByString:@"diff --git"];
-          for(int i = 1; i < fileArray.count; i++)
+          NSScanner *fileSplitter = [NSScanner scannerWithString:requestReply];
+          NSArray *fileArray = [[NSMutableArray alloc] init];
+          
+          while(![fileSplitter isAtEnd]){
+              PullRequestFile* pullRequestFile = [[PullRequestFile alloc] init];
+              NSString *fileStringPart1 = nil;
+              NSString *fileStringPart2 = nil;
+              //scan until diff
+              [fileSplitter scanString:@"diff --git a/" intoString:&fileStringPart1];
+              [fileSplitter scanUpToString:@"diff --git" intoString:&fileStringPart2];
+              pullRequestFile.originalText = [NSString stringWithFormat:@"%@%@",fileStringPart1, fileStringPart2];
+              [pullRequestFile splitOriginalText];
+              [self.pullRequestFiles insertObject:pullRequestFile atIndex:0];
+          }
+          //NSArray *fileArray = [requestReply componentsSeparatedByString:@"diff --git"];
+         /* for(int i = 1; i < fileArray.count; i++)
           {
               PullRequestFile* pullRequestFile = [[PullRequestFile alloc] init];
               pullRequestFile.originalText = fileArray[i];
@@ -63,11 +79,13 @@
               pullRequestFile.rightParsedText = fileArray[i];
               [self.pullRequestFiles insertObject:pullRequestFile atIndex:0];
           }
+          */
               dispatch_async(dispatch_get_main_queue(), ^{
                   [self.tableView reloadData];
               });
           NSLog(@"Request reply: %@", requestReply);
       }] resume];
+    }
 }
 
 
@@ -102,7 +120,6 @@
     if(cell == nil)
     {
         cell = [[PullDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-
         [self.selectedSwitches setObject:[NSNumber numberWithBool:FALSE] forKey:key];
     }
     
@@ -127,10 +144,14 @@
     if(indexPath.row % 2 == 0)
     {
         cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        cell.contentView.layer.borderWidth = 1.0;
     }
     else
     {
         cell.backgroundColor = [UIColor whiteColor];
+        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        cell.contentView.layer.borderWidth = 1.0;
     }
     return cell;
 }

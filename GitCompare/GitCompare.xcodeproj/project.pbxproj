@@ -17,7 +17,6 @@
 		20390A761F78422A0030035B /* PullRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A751F78422A0030035B /* PullRequest.m */; };
 		20390A7D1F788E080030035B /* PullDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A791F788E080030035B /* PullDetailCell.m */; };
 		20390A7E1F788E080030035B /* PullRequestListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A7C1F788E080030035B /* PullRequestListCell.m */; };
-		20390A801F78AAC20030035B /* PullRequestDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A7F1F78AAC20030035B /* PullRequestDetail.m */; };
 		20390A871F78B21F0030035B /* PullRequestFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A861F78B21F0030035B /* PullRequestFile.m */; };
 /* End PBXBuildFile section */
 
@@ -40,8 +39,6 @@
 		20390A7A1F788E080030035B /* PullDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PullDetailCell.h; path = GitCompare/Cells/PullDetailCell.h; sourceTree = SOURCE_ROOT; };
 		20390A7B1F788E080030035B /* PullRequestListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PullRequestListCell.h; path = GitCompare/Cells/PullRequestListCell.h; sourceTree = SOURCE_ROOT; };
 		20390A7C1F788E080030035B /* PullRequestListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PullRequestListCell.m; path = GitCompare/Cells/PullRequestListCell.m; sourceTree = SOURCE_ROOT; };
-		20390A7F1F78AAC20030035B /* PullRequestDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PullRequestDetail.m; sourceTree = "<group>"; };
-		20390A811F78AAD00030035B /* PullRequestDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullRequestDetail.h; sourceTree = "<group>"; };
 		20390A851F78B20B0030035B /* PullRequestFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullRequestFile.h; sourceTree = "<group>"; };
 		20390A861F78B21F0030035B /* PullRequestFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PullRequestFile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,6 +59,7 @@
 			children = (
 				20244C0C1F75EFA1001008B3 /* GitCompare */,
 				20244C0B1F75EFA1001008B3 /* Products */,
+				20390A881F7981F30030035B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,8 +104,6 @@
 			children = (
 				20390A771F7842360030035B /* PullRequest.h */,
 				20390A751F78422A0030035B /* PullRequest.m */,
-				20390A811F78AAD00030035B /* PullRequestDetail.h */,
-				20390A7F1F78AAC20030035B /* PullRequestDetail.m */,
 				20390A851F78B20B0030035B /* PullRequestFile.h */,
 				20390A861F78B21F0030035B /* PullRequestFile.m */,
 			);
@@ -124,6 +120,13 @@
 			);
 			name = Cells;
 			path = GitCompareCells/Cells;
+			sourceTree = "<group>";
+		};
+		20390A881F7981F30030035B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,7 +208,6 @@
 				20244C151F75EFA1001008B3 /* DetailViewController.m in Sources */,
 				20390A761F78422A0030035B /* PullRequest.m in Sources */,
 				20390A7E1F788E080030035B /* PullRequestListCell.m in Sources */,
-				20390A801F78AAC20030035B /* PullRequestDetail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

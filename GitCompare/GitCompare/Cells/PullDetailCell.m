@@ -30,13 +30,13 @@
 }
 
 - (void)collapse{
-    self.leftCodeLabel.text = @"";
-    self.rightCodeLabel.text = @"";
+   self.leftCodeLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@""]];
+    self.rightCodeLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@""]];
 }
 
 -(void)expand{
-    self.leftCodeLabel.text = self.leftTextString;
-    self.rightCodeLabel.text = self.rightTextString;
+    self.leftCodeLabel.attributedText = self.leftTextString;
+    self.rightCodeLabel.attributedText = self.rightTextString;
 }
 @end
 

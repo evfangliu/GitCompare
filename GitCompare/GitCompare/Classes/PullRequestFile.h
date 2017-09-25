@@ -13,8 +13,8 @@
 
 @property (nonatomic, copy) NSString *originalText;
 @property (nonatomic, copy) NSString *headerParsedText;
-@property (nonatomic, copy) NSString *leftParsedText;
-@property (nonatomic, copy) NSString *rightParsedText;
+@property (nonatomic, copy) NSAttributedString *leftParsedText;
+@property (nonatomic, copy) NSAttributedString *rightParsedText;
 
 -(void) splitOriginalText;
 @end
