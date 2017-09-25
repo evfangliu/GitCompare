@@ -88,6 +88,7 @@
         controller.navigationItem.leftItemsSupplementBackButton = YES;
         
         if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            //We remove the primary view when selecting a Pull Request for iPAD
             self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
             self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
         }
@@ -114,6 +115,7 @@
     }
     PullRequest *pullRequest = self.pullRequests[indexPath.row];
     
+    //Format the date
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     [dateFormatter setDateFormat:@"M/d/yy"];
@@ -122,12 +124,17 @@
     cell.numberLabel.text = [NSString stringWithFormat:@"#%ld created at %@", pullRequest.requestNumber, dtCreatedString];
     cell.nameLabel.text = pullRequest.title;
     
+    //add alternating background UI
     if(indexPath.row % 2 == 0){
         cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        cell.contentView.layer.borderWidth = 1.0;
     }
     else
     {
         cell.backgroundColor = [UIColor whiteColor];
+        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        cell.contentView.layer.borderWidth = 1.0;
     }
         
     return cell;
