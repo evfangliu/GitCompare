@@ -11,6 +11,7 @@
 #import "PullRequestFile.h"
 @interface DetailViewController ()
 @property NSMutableArray *pullRequestFiles;
+@property NSMutableDictionary *selectedSwitches;
 @end
 
 @implementation DetailViewController
@@ -67,6 +68,7 @@
         self.pullRequestFiles = responseFiles;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
+            
         });
     }
     else
@@ -87,75 +89,80 @@
 
 - (void)setPullRequestObject:(PullRequest *)newPullRequest {
     self.currentPullRequest = newPullRequest;
-    NSLog(@"%@", self.currentPullRequest.title);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.pullRequestFiles.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"PullDetailCell";
-    
-    PullDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    cell.toggleSwitch.tag = 1000 + indexPath.row;
-    NSNumber *key = [NSNumber numberWithInteger:cell.toggleSwitch.tag];
-    
-    if(cell == nil)
-    {
-        cell = [[PullDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        [self.selectedSwitches setObject:[NSNumber numberWithBool:FALSE] forKey:key];
-    }
-    
-    PullRequestFile *pullRequestFile = self.pullRequestFiles[indexPath.row];
-    cell.leftTextString = pullRequestFile.leftDisplayText;
-    cell.rightTextString = pullRequestFile.rightDisplayText;
-    cell.fileNameLabel.text = pullRequestFile.headerParsedText;
-    
-    if([[self.selectedSwitches objectForKey:key] boolValue])
-    {
-        [cell.toggleSwitch setOn:TRUE];
-        [cell expand];
-    }
-    else
-    {
-        [cell.toggleSwitch setOn:FALSE];
-        [cell collapse];
-    }
-    
-    [cell.toggleSwitch addTarget:self action:@selector(switchRefresh:) forControlEvents:UIControlEventValueChanged];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    cell.contentView.layer.borderWidth = 1.0;
-    if(indexPath.row % 2 == 0)
-    {
+- (void)tableView:(UITableView *)tableView willDisplayCell:(PullDetailCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.row % 2 == 0){
         cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
     else
     {
         cell.backgroundColor = [UIColor whiteColor];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.contentView.layer.borderWidth = 1.0;
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"PullDetailCell";
+    
+    PullDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+
+    cell.segmentControl.tag = 1000 + indexPath.row;
+    NSNumber *key = [NSNumber numberWithInteger:cell.segmentControl.tag];
+    
+    if(cell == nil)
+    {
+        cell = [[PullDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    PullRequestFile *pullRequestFile = self.pullRequestFiles[indexPath.row];
+    cell.leftTextString = pullRequestFile.leftDisplayText;
+    cell.rightTextString = pullRequestFile.rightDisplayText;
+    cell.fileNameLabel.text = pullRequestFile.headerParsedText;
+ 
+    if([[self.selectedSwitches objectForKey:key] boolValue] == TRUE)
+    {
+        [cell.segmentControl setSelectedSegmentIndex:1];
+        [cell expand];
+    }
+    else
+    {
+        [cell.segmentControl setSelectedSegmentIndex:0];
+        [cell collapse];
+    }
+ 
+    [cell.segmentControl addTarget:self action:@selector(segmentSelected:) forControlEvents:UIControlEventValueChanged];
+    
     return cell;
 }
 
--(void)switchRefresh:(UISwitch*)sender {
+-(void)segmentSelected:(UISegmentedControl*)sender {
     //We update the dictionary for the switch's state and reload the table view.
-    NSNumber *isChecked = [[NSNumber alloc] initWithBool:sender.isOn];
+    NSNumber *isChecked = [[NSNumber alloc] initWithBool:sender.selectedSegmentIndex];
     NSNumber *key = [NSNumber numberWithInteger:sender.tag];
     [self.selectedSwitches setObject:isChecked forKey:key];
-    [self.tableView reloadData];
+    
+    //tableView reload data loses the position sometimes
+    [UIView setAnimationsEnabled:NO];
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+    [UIView setAnimationsEnabled:YES];
 }
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return NO;
 }
-
-
 
 @end

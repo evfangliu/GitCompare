@@ -15,15 +15,14 @@
 @property (nonatomic, weak) NSAttributedString *leftTextString;
 @property (nonatomic, weak) NSAttributedString *rightTextString;
 @property (nonatomic, weak) IBOutlet UILabel *fileNameLabel;
-@property (nonatomic, weak) IBOutlet UISwitch *toggleSwitch;
 @property (nonatomic, weak) IBOutlet UILabel *leftCodeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *rightCodeLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
--(IBAction)toggleChanged:(id)sender;
+- (IBAction)segmentChanged:(id)sender;
 
--(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated;
--(void)collapse;
--(void)expand;
+- (void)collapse;
+- (void)expand;
 @end
 
 #endif /* PullRequestListCell_h */

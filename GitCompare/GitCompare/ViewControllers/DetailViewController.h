@@ -12,8 +12,6 @@
 @interface DetailViewController : UITableViewController <FileResponseDelegate>
 
 @property (nonatomic, strong) PullRequest *currentPullRequest;
-@property (nonatomic, strong) NSMutableDictionary *selectedSwitches;
-
 - (void)setPullRequestObject:(PullRequest *)newPullRequest;
 @end
 
