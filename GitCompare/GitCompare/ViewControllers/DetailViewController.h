@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "PullRequest.h"
-@interface DetailViewController : UITableViewController
+#import "PullRequestFileWS.h"
+@interface DetailViewController : UITableViewController <FileResponseDelegate>
 
 @property (nonatomic, strong) PullRequest *currentPullRequest;
 @property (nonatomic, strong) NSMutableDictionary *selectedSwitches;

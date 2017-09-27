@@ -4,7 +4,8 @@
 //
 //  Created by Fangzhou Liu on 9/22/17.
 //  Copyright © 2017 Evan Inc. All rights reserved.
-//
+//  This is for the details (diffs) of a specific pull request
+
 #ifndef PullRequestListCell_h
 #define PullRequestListCell_h
 
@@ -17,12 +18,12 @@
 @property (nonatomic, weak) IBOutlet UISwitch *toggleSwitch;
 @property (nonatomic, weak) IBOutlet UILabel *leftCodeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *rightCodeLabel;
-@property (weak, nonatomic) IBOutlet UIView *contentView;
 
-- (IBAction)toggleChanged:(id)sender;
+-(IBAction)toggleChanged:(id)sender;
 
-- (void)collapse;
-- (void)expand;
+-(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated;
+-(void)collapse;
+-(void)expand;
 @end
 
 #endif /* PullRequestListCell_h */

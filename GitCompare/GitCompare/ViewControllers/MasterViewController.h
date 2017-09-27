@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PullRequestWS.h"
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UITableViewController <PullRequestResponseDelegate>
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 

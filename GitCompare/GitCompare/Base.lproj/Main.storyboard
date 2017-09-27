@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Master-->
+        <!--Pull Requests-->
         <scene sceneID="pY4-Hu-kfo">
             <objects>
-                <navigationController title="Master" id="RMx-3f-FxP" sceneMemberID="viewController">
+                <navigationController title="Pull Requests" id="RMx-3f-FxP" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Pmd-2v-anx">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -37,11 +37,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="122"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9WU-6l-4pB" id="L3H-hX-SzK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="122"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="121.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File Name Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dP-qg-Me6">
-                                            <rect key="frame" x="24" y="16" width="291" height="35"/>
+                                            <rect key="frame" x="24" y="16" width="216.5" height="35"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" staticText="YES" header="YES"/>
                                             </accessibility>
@@ -56,14 +56,14 @@
                                             </connections>
                                         </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left Text Diff" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dkK-5w-E93">
-                                            <rect key="frame" x="8" y="59" width="108" height="20"/>
+                                            <rect key="frame" x="8" y="59" width="175.5" height="20"/>
                                             <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Right Text Diff" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-Gv-WXx">
-                                            <rect key="frame" x="258.5" y="59" width="108.5" height="20"/>
+                                            <rect key="frame" x="191.5" y="59" width="175.5" height="20"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -75,14 +75,14 @@
                                         <constraint firstItem="hYQ-Hd-VYy" firstAttribute="top" secondItem="L3H-hX-SzK" secondAttribute="top" constant="16" id="79u-5h-JTc"/>
                                         <constraint firstItem="dkK-5w-E93" firstAttribute="leading" secondItem="L3H-hX-SzK" secondAttribute="leading" constant="8" id="7qz-HY-bJR"/>
                                         <constraint firstItem="0dP-qg-Me6" firstAttribute="top" secondItem="L3H-hX-SzK" secondAttribute="top" constant="16" id="Es5-hK-U1Q"/>
-                                        <constraint firstAttribute="trailing" secondItem="0dP-qg-Me6" secondAttribute="trailing" constant="60" id="Gxl-oo-ADZ"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0dP-qg-Me6" secondAttribute="trailing" constant="66" id="Gxl-oo-ADZ"/>
                                         <constraint firstAttribute="trailing" secondItem="3PK-Gv-WXx" secondAttribute="trailing" constant="8" id="ZuT-xs-4kb"/>
                                         <constraint firstItem="3PK-Gv-WXx" firstAttribute="width" secondItem="dkK-5w-E93" secondAttribute="width" id="fFf-rj-ndd"/>
                                         <constraint firstItem="3PK-Gv-WXx" firstAttribute="top" secondItem="0dP-qg-Me6" secondAttribute="bottom" constant="8" id="g7A-kE-sTJ"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dkK-5w-E93" secondAttribute="bottom" constant="8" id="gkI-fA-hYc"/>
                                         <constraint firstAttribute="trailing" secondItem="hYQ-Hd-VYy" secondAttribute="trailing" constant="16" id="jwJ-L4-DXI"/>
                                         <constraint firstItem="0dP-qg-Me6" firstAttribute="leading" secondItem="L3H-hX-SzK" secondAttribute="leading" constant="24" id="nzw-up-xfi"/>
-                                        <constraint firstItem="3PK-Gv-WXx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dkK-5w-E93" secondAttribute="trailing" constant="8" id="zYH-9R-19P"/>
+                                        <constraint firstItem="3PK-Gv-WXx" firstAttribute="leading" secondItem="dkK-5w-E93" secondAttribute="trailing" constant="8" id="zYH-9R-19P"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -129,7 +129,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8ix-3E-tcN" id="SAp-oz-pBr">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLL-1f-VCN">

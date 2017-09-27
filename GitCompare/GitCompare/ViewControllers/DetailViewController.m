@@ -17,17 +17,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
     self.navigationItem.leftItemsSupplementBackButton = YES;
     
     if (!self.pullRequestFiles) {
         self.pullRequestFiles = [[NSMutableArray alloc] init];
     }
-    
-    // Do any additional setup after loading the view, typically from a nib.
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    self.selectedSwitches = [[NSMutableDictionary alloc] init];
+    if(!self.selectedSwitches){
+        self.selectedSwitches = [[NSMutableDictionary alloc] init];
+    }
+    //If this is on initial load, we basically want the screen to be blank but force the master view overlay to show up.
     if(self.currentPullRequest == nil)
     {
         self.currentPullRequest = [[PullRequest alloc] init];
@@ -40,60 +40,48 @@
     }
     else
     {
+        //otherwise set it up to have a title and load the cells via call to github api.
         self.title = [NSString stringWithFormat:@"Pull Request #%ld", self.currentPullRequest.requestNumber];
+        if(self.currentPullRequest.requestNumber > 0)
+        {
+            PullRequestFileWS *pullRequestFileWS = [[PullRequestFileWS alloc] init];
+            pullRequestFileWS.delegate = self;
+            NSString *urlString = [NSString stringWithFormat:@"https://github.com/magicalpanda/MagicalRecord/pull/%ld.diff", self.currentPullRequest.requestNumber];
+            [pullRequestFileWS loadFilesFromURL:urlString];
+        }
     }
     
-    if(self.currentPullRequest.requestNumber > 0)
-    {
-    NSString *urlString = [NSString stringWithFormat:@"https://github.com/magicalpanda/MagicalRecord/pull/%ld.diff", self.currentPullRequest.requestNumber];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-      {
-          
-          NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-          NSScanner *fileSplitter = [NSScanner scannerWithString:requestReply];
-          NSArray *fileArray = [[NSMutableArray alloc] init];
-          
-          while(![fileSplitter isAtEnd]){
-              PullRequestFile* pullRequestFile = [[PullRequestFile alloc] init];
-              NSString *fileStringPart1 = nil;
-              NSString *fileStringPart2 = nil;
-              //scan until diff
-              [fileSplitter scanString:@"diff --git a/" intoString:&fileStringPart1];
-              [fileSplitter scanUpToString:@"diff --git" intoString:&fileStringPart2];
-              pullRequestFile.originalText = [NSString stringWithFormat:@"%@%@",fileStringPart1, fileStringPart2];
-              [pullRequestFile splitOriginalText];
-              [self.pullRequestFiles insertObject:pullRequestFile atIndex:0];
-          }
-          //NSArray *fileArray = [requestReply componentsSeparatedByString:@"diff --git"];
-         /* for(int i = 1; i < fileArray.count; i++)
-          {
-              PullRequestFile* pullRequestFile = [[PullRequestFile alloc] init];
-              pullRequestFile.originalText = fileArray[i];
-              [pullRequestFile splitOriginalText];
-              pullRequestFile.leftParsedText = fileArray[i];
-              pullRequestFile.rightParsedText = fileArray[i];
-              [self.pullRequestFiles insertObject:pullRequestFile atIndex:0];
-          }
-          */
-              dispatch_async(dispatch_get_main_queue(), ^{
-                  [self.tableView reloadData];
-              });
-          NSLog(@"Request reply: %@", requestReply);
-      }] resume];
-    }
+    //So the dynamic row heights will work
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+//We have a delegate such that when the api call is finished, we return here
+-(void)didFinishRequestWithFiles:(NSMutableArray *)responseFiles{
+    if(responseFiles != nil)
+    {
+        self.pullRequestFiles = responseFiles;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    }
+    else
+    {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Pull Request Error"
+                                                                       message:@"Diff not found!"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
 
 #pragma mark - Managing the detail item
 
@@ -115,8 +103,10 @@
     static NSString *CellIdentifier = @"PullDetailCell";
     
     PullDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
     cell.toggleSwitch.tag = 1000 + indexPath.row;
     NSNumber *key = [NSNumber numberWithInteger:cell.toggleSwitch.tag];
+    
     if(cell == nil)
     {
         cell = [[PullDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -124,11 +114,11 @@
     }
     
     PullRequestFile *pullRequestFile = self.pullRequestFiles[indexPath.row];
-    cell.leftTextString = pullRequestFile.leftParsedText;
-    cell.rightTextString = pullRequestFile.rightParsedText;
+    cell.leftTextString = pullRequestFile.leftDisplayText;
+    cell.rightTextString = pullRequestFile.rightDisplayText;
+    cell.fileNameLabel.text = pullRequestFile.headerParsedText;
     
-     cell.fileNameLabel.text = pullRequestFile.headerParsedText;
-    if([[self.selectedSwitches objectForKey:key] boolValue] == TRUE)
+    if([[self.selectedSwitches objectForKey:key] boolValue])
     {
         [cell.toggleSwitch setOn:TRUE];
         [cell expand];
@@ -140,18 +130,16 @@
     }
     
     [cell.toggleSwitch addTarget:self action:@selector(switchRefresh:) forControlEvents:UIControlEventValueChanged];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.contentView.layer.borderWidth = 1.0;
     if(indexPath.row % 2 == 0)
     {
         cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        cell.contentView.layer.borderWidth = 1.0;
     }
     else
     {
         cell.backgroundColor = [UIColor whiteColor];
-        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        cell.contentView.layer.borderWidth = 1.0;
     }
     return cell;
 }
