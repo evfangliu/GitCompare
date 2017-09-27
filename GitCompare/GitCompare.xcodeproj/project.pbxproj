@@ -80,8 +80,8 @@
 		20244C0C1F75EFA1001008B3 /* GitCompare */ = {
 			isa = PBXGroup;
 			children = (
+				2083EA8C1F7C2089000C7CBA /* Cells */,
 				20390A8F1F79DCD30030035B /* WebService */,
-				20390A781F788DB90030035B /* Cells */,
 				20390A741F783B4B0030035B /* Classes */,
 				20390A731F783B300030035B /* ViewControllers */,
 				20244C0D1F75EFA1001008B3 /* AppDelegate.h */,
@@ -117,18 +117,6 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		20390A781F788DB90030035B /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				20390A7A1F788E080030035B /* PullDetailCell.h */,
-				20390A791F788E080030035B /* PullDetailCell.m */,
-				20390A7B1F788E080030035B /* PullRequestListCell.h */,
-				20390A7C1F788E080030035B /* PullRequestListCell.m */,
-			);
-			name = Cells;
-			path = GitCompareCells/Cells;
-			sourceTree = "<group>";
-		};
 		20390A881F7981F30030035B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +133,17 @@
 				20390A931F79DD2B0030035B /* PullRequestFileWS.m */,
 			);
 			path = WebService;
+			sourceTree = "<group>";
+		};
+		2083EA8C1F7C2089000C7CBA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				20390A7A1F788E080030035B /* PullDetailCell.h */,
+				20390A791F788E080030035B /* PullDetailCell.m */,
+				20390A7B1F788E080030035B /* PullRequestListCell.h */,
+				20390A7C1F788E080030035B /* PullRequestListCell.m */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
