@@ -18,18 +18,22 @@
     return self;
 }
 
-- (IBAction)toggleChanged:(id)sender {
+-(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
+    self.toggleSwitch.backgroundColor = self.backgroundColor;
+}
+
+-(IBAction)toggleChanged:(id)sender {
     if(self.toggleSwitch.isOn)
     {
         [self expand];
     }
     else
     {
-         [self collapse];
+        [self collapse];
     }
 }
 
-- (void)collapse{
+-(void)collapse{
    self.leftCodeLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@""]];
     self.rightCodeLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@""]];
 }

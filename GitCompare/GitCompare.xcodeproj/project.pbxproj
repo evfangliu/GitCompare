@@ -18,6 +18,8 @@
 		20390A7D1F788E080030035B /* PullDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A791F788E080030035B /* PullDetailCell.m */; };
 		20390A7E1F788E080030035B /* PullRequestListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A7C1F788E080030035B /* PullRequestListCell.m */; };
 		20390A871F78B21F0030035B /* PullRequestFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A861F78B21F0030035B /* PullRequestFile.m */; };
+		20390A8C1F79CDC80030035B /* PullRequestWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A8B1F79CDC80030035B /* PullRequestWS.m */; };
+		20390A941F79DD2B0030035B /* PullRequestFileWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 20390A931F79DD2B0030035B /* PullRequestFileWS.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,10 @@
 		20390A7C1F788E080030035B /* PullRequestListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PullRequestListCell.m; path = GitCompare/Cells/PullRequestListCell.m; sourceTree = SOURCE_ROOT; };
 		20390A851F78B20B0030035B /* PullRequestFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullRequestFile.h; sourceTree = "<group>"; };
 		20390A861F78B21F0030035B /* PullRequestFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PullRequestFile.m; sourceTree = "<group>"; };
+		20390A8B1F79CDC80030035B /* PullRequestWS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PullRequestWS.m; sourceTree = "<group>"; };
+		20390A8D1F79CDEF0030035B /* PullRequestWS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullRequestWS.h; sourceTree = "<group>"; };
+		20390A931F79DD2B0030035B /* PullRequestFileWS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PullRequestFileWS.m; sourceTree = "<group>"; };
+		20390A951F79DD380030035B /* PullRequestFileWS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullRequestFileWS.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,7 @@
 		20244C0C1F75EFA1001008B3 /* GitCompare */ = {
 			isa = PBXGroup;
 			children = (
+				20390A8F1F79DCD30030035B /* WebService */,
 				20390A781F788DB90030035B /* Cells */,
 				20390A741F783B4B0030035B /* Classes */,
 				20390A731F783B300030035B /* ViewControllers */,
@@ -127,6 +134,17 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		20390A8F1F79DCD30030035B /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				20390A8D1F79CDEF0030035B /* PullRequestWS.h */,
+				20390A8B1F79CDC80030035B /* PullRequestWS.m */,
+				20390A951F79DD380030035B /* PullRequestFileWS.h */,
+				20390A931F79DD2B0030035B /* PullRequestFileWS.m */,
+			);
+			path = WebService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,8 +224,10 @@
 				20390A871F78B21F0030035B /* PullRequestFile.m in Sources */,
 				20244C201F75EFA1001008B3 /* main.m in Sources */,
 				20244C151F75EFA1001008B3 /* DetailViewController.m in Sources */,
+				20390A941F79DD2B0030035B /* PullRequestFileWS.m in Sources */,
 				20390A761F78422A0030035B /* PullRequest.m in Sources */,
 				20390A7E1F788E080030035B /* PullRequestListCell.m in Sources */,
+				20390A8C1F79CDC80030035B /* PullRequestWS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M4J2RTBXU2;
 				INFOPLIST_FILE = GitCompare/Info.plist;
@@ -355,6 +376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M4J2RTBXU2;
 				INFOPLIST_FILE = GitCompare/Info.plist;

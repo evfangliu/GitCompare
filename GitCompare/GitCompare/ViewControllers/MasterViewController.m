@@ -10,6 +10,7 @@
 #import "DetailViewController.h"
 #import "PullRequestListCell.h"
 #import "PullRequest.h"
+#import "PullRequestWS.h"
 
 @interface MasterViewController ()
 @property NSMutableArray *pullRequests;
@@ -20,47 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:@"https://api.github.com/repos/magicalpanda/MagicalRecord/pulls"]];
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    if (!self.pullRequests) {
-        self.pullRequests = [[NSMutableArray alloc] init];
-    }
-    
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-      {
-          
-          NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-          NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error: &error];
-          for (NSDictionary *pulls in JSON)
-          {
-              long pullID = [[pulls objectForKey:@"number"] longValue];
-              NSString *title = [pulls objectForKey:@"title"];
-              NSString *dtCreated = [pulls objectForKey:@"created_at"];
-              
-              NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-              //The Z at the end of the string represents Zulu which is UTC
-              [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-              [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-              
-              NSDate* newTime = [dateFormatter dateFromString:dtCreated];
-              
-              PullRequest *pullRequest = [[PullRequest alloc] init];
-              pullRequest.title = title;
-              pullRequest.requestNumber = pullID;
-              pullRequest.dtCreated = newTime;
-              [self.pullRequests insertObject:pullRequest atIndex:0];
-          }
-          dispatch_async(dispatch_get_main_queue(), ^{
-              [self.tableView reloadData];
-          });
-          NSLog(@"Request reply: %@", requestReply);
-      }] resume];
-    
+    PullRequestWS *pullRequestWS = [[PullRequestWS alloc] init];
+    pullRequestWS.delegate = self;
+    [pullRequestWS loadPullRequestsFromURL:@"https://api.github.com/repos/magicalpanda/MagicalRecord/pulls"];
 }
 
 
@@ -75,7 +38,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+-(void)didFinishRequestWithPullRequests:(NSMutableArray *)responsePR{
+    self.pullRequests = responsePR;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -120,23 +88,23 @@
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     [dateFormatter setDateFormat:@"M/d/yy"];
     NSString* dtCreatedString = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:pullRequest.dtCreated]];
-
+    
+    //Fill out info
     cell.numberLabel.text = [NSString stringWithFormat:@"#%ld created at %@", pullRequest.requestNumber, dtCreatedString];
     cell.nameLabel.text = pullRequest.title;
     
+    //UI Stuff
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     //add alternating background UI
+    cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.contentView.layer.borderWidth = 1.0;
     if(indexPath.row % 2 == 0){
         cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        cell.contentView.layer.borderWidth = 1.0;
     }
     else
     {
         cell.backgroundColor = [UIColor whiteColor];
-        cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        cell.contentView.layer.borderWidth = 1.0;
     }
-        
     return cell;
 }
 
