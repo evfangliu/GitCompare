@@ -13,9 +13,9 @@
 #import "PullRequestWS.h"
 
 @interface MasterViewController ()
+//Store the array of pull Requests;
 @property NSMutableArray *pullRequests;
 @end
-
 @implementation MasterViewController
 
 - (void)viewDidLoad {
@@ -25,7 +25,6 @@
     pullRequestWS.delegate = self;
     [pullRequestWS loadPullRequestsFromURL:@"https://api.github.com/repos/magicalpanda/MagicalRecord/pulls"];
 }
-
 
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
@@ -39,10 +38,14 @@
 }
 
 -(void)didFinishRequestWithPullRequests:(NSMutableArray *)responsePR{
-    self.pullRequests = responsePR;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
+    //Response to loading the pull requests;
+    if(responsePR != nil)
+    {
+        self.pullRequests = responsePR;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    }
 }
 #pragma mark - Segues
 
@@ -75,6 +78,21 @@
     return self.pullRequests.count;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row % 2 == 0){
+        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
+    else
+    {
+        cell.backgroundColor = [UIColor whiteColor];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.contentView.layer.borderWidth = 1.0;
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PullRequestListCell *cell = (PullRequestListCell *) [tableView dequeueReusableCellWithIdentifier:@"PullRequestListCell" forIndexPath:indexPath];
     if(cell == nil)
@@ -92,19 +110,6 @@
     //Fill out info
     cell.numberLabel.text = [NSString stringWithFormat:@"#%ld created at %@", pullRequest.requestNumber, dtCreatedString];
     cell.nameLabel.text = pullRequest.title;
-    
-    //UI Stuff
-    cell.selectionStyle = UITableViewCellSelectionStyleGray;
-    //add alternating background UI
-    cell.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    cell.contentView.layer.borderWidth = 1.0;
-    if(indexPath.row % 2 == 0){
-        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    }
-    else
-    {
-        cell.backgroundColor = [UIColor whiteColor];
-    }
     return cell;
 }
 

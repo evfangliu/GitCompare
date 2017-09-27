@@ -18,27 +18,22 @@
     return self;
 }
 
--(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
-    self.toggleSwitch.backgroundColor = self.backgroundColor;
-}
-
--(IBAction)toggleChanged:(id)sender {
-    if(self.toggleSwitch.isOn)
+- (IBAction)segmentChanged:(id)sender {
+    if (self.segmentControl.selectedSegmentIndex == 0)
+    {
+        [self collapse];
+    } else if(self.segmentControl.selectedSegmentIndex == 1)
     {
         [self expand];
     }
-    else
-    {
-        [self collapse];
-    }
 }
 
--(void)collapse{
+- (void)collapse{
    self.leftCodeLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@""]];
     self.rightCodeLabel.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@""]];
 }
 
--(void)expand{
+- (void)expand{
     self.leftCodeLabel.attributedText = self.leftTextString;
     self.rightCodeLabel.attributedText = self.rightTextString;
 }

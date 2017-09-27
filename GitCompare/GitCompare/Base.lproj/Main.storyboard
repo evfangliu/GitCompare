@@ -49,12 +49,6 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hYQ-Hd-VYy">
-                                            <rect key="frame" x="310" y="16" width="51" height="31"/>
-                                            <connections>
-                                                <action selector="toggleChanged:" destination="9WU-6l-4pB" eventType="valueChanged" id="Jhy-iz-9WL"/>
-                                            </connections>
-                                        </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left Text Diff" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dkK-5w-E93">
                                             <rect key="frame" x="8" y="59" width="175.5" height="20"/>
                                             <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
@@ -68,19 +62,33 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ndh-xw-ERg">
+                                            <rect key="frame" x="297" y="19.5" width="70" height="29"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="70" id="dR9-qR-Ew4"/>
+                                            </constraints>
+                                            <segments>
+                                                <segment title="-"/>
+                                                <segment title="+"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="segmentChanged:" destination="9WU-6l-4pB" eventType="valueChanged" id="8wC-QE-Rsa"/>
+                                            </connections>
+                                        </segmentedControl>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="dkK-5w-E93" firstAttribute="top" secondItem="0dP-qg-Me6" secondAttribute="bottom" constant="8" id="0L1-B1-qLb"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3PK-Gv-WXx" secondAttribute="bottom" constant="8" id="39J-NC-eHR"/>
-                                        <constraint firstItem="hYQ-Hd-VYy" firstAttribute="top" secondItem="L3H-hX-SzK" secondAttribute="top" constant="16" id="79u-5h-JTc"/>
                                         <constraint firstItem="dkK-5w-E93" firstAttribute="leading" secondItem="L3H-hX-SzK" secondAttribute="leading" constant="8" id="7qz-HY-bJR"/>
+                                        <constraint firstAttribute="trailing" secondItem="Ndh-xw-ERg" secondAttribute="trailing" constant="8" id="9dm-cE-PLl"/>
                                         <constraint firstItem="0dP-qg-Me6" firstAttribute="top" secondItem="L3H-hX-SzK" secondAttribute="top" constant="16" id="Es5-hK-U1Q"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0dP-qg-Me6" secondAttribute="trailing" constant="66" id="Gxl-oo-ADZ"/>
+                                        <constraint firstItem="Ndh-xw-ERg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0dP-qg-Me6" secondAttribute="trailing" constant="8" id="Q0N-yo-Eut"/>
                                         <constraint firstAttribute="trailing" secondItem="3PK-Gv-WXx" secondAttribute="trailing" constant="8" id="ZuT-xs-4kb"/>
                                         <constraint firstItem="3PK-Gv-WXx" firstAttribute="width" secondItem="dkK-5w-E93" secondAttribute="width" id="fFf-rj-ndd"/>
                                         <constraint firstItem="3PK-Gv-WXx" firstAttribute="top" secondItem="0dP-qg-Me6" secondAttribute="bottom" constant="8" id="g7A-kE-sTJ"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dkK-5w-E93" secondAttribute="bottom" constant="8" id="gkI-fA-hYc"/>
-                                        <constraint firstAttribute="trailing" secondItem="hYQ-Hd-VYy" secondAttribute="trailing" constant="16" id="jwJ-L4-DXI"/>
+                                        <constraint firstItem="Ndh-xw-ERg" firstAttribute="centerY" secondItem="0dP-qg-Me6" secondAttribute="centerY" id="h88-qU-wxh"/>
                                         <constraint firstItem="0dP-qg-Me6" firstAttribute="leading" secondItem="L3H-hX-SzK" secondAttribute="leading" constant="24" id="nzw-up-xfi"/>
                                         <constraint firstItem="3PK-Gv-WXx" firstAttribute="leading" secondItem="dkK-5w-E93" secondAttribute="trailing" constant="8" id="zYH-9R-19P"/>
                                     </constraints>
@@ -90,7 +98,7 @@
                                     <outlet property="fileNameLabel" destination="0dP-qg-Me6" id="QKA-2i-2mx"/>
                                     <outlet property="leftCodeLabel" destination="dkK-5w-E93" id="EnM-rn-8Ow"/>
                                     <outlet property="rightCodeLabel" destination="3PK-Gv-WXx" id="ohb-5o-byW"/>
-                                    <outlet property="toggleSwitch" destination="hYQ-Hd-VYy" id="IO5-oe-rb8"/>
+                                    <outlet property="segmentControl" destination="Ndh-xw-ERg" id="h1E-rI-eQj"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
